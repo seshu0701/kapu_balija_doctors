@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:kapu_balija_doctors/registration_screen.dart';
+import 'package:kapu_balija_doctors/services/helper.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,7 +16,6 @@ class _LoginScreen extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String? email, password;
   bool isLoading = false;
 
   @override
@@ -36,76 +37,79 @@ class _LoginScreen extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(
-                height: 32,
-              ),
-              TextFormField(
-                controller: emailController,
-                //cursorColor: Colors.white,
-                style: const TextStyle(color: Colors.black),
-                decoration: const InputDecoration(
-                    hintText: 'Email Address',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    hintStyle: TextStyle(color: Colors.black),
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: Colors.black,
-                    )),
-                validator: (value) =>
-                    !value!.contains('@') ? 'Please enter valid email' : null,
-              ),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
+                  child: TextFormField(
+                    controller: emailController,
+                    //cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.black),
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                        hintText: 'Email Address',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.black,
+                        )),
+                    validator: (value) => !value!.contains('@')
+                        ? 'Please enter valid email'
+                        : null,
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
+                  child: TextFormField(
+                    controller: passwordController,
+                    // cursorColor: Colors.white,
+                    style: const TextStyle(color: Colors.black),
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: const InputDecoration(
+                        hintText: 'Password',
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        hintStyle: TextStyle(color: Colors.black),
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: Colors.black,
+                        )),
+                    validator: (value) => value!.length < 6
+                        ? 'Must be at least 6 characters'
+                        : null,
+                  )),
+              Padding(
+                  padding:
+                      const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          //elevation: 1,
+                          side: const BorderSide(
+                            color: Colors.black,
+                          ),
+                          minimumSize: const Size.fromHeight(50),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.only(top: 12, bottom: 12)),
+                      onPressed: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+
+                        if (_formKey.currentState!.validate()) {
+                          login();
+                        }
+                      },
+                      child: const Text('Submit'))),
               const SizedBox(
                 height: 16,
-              ),
-              TextFormField(
-                controller: passwordController,
-                // cursorColor: Colors.white,
-
-                style: const TextStyle(color: Colors.black),
-                decoration: const InputDecoration(
-                    hintText: 'Password',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    hintStyle: TextStyle(color: Colors.black),
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      color: Colors.black,
-                    )),
-                validator: (value) =>
-                    value!.length < 6 ? 'Must be at least 6 characters' : null,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      //elevation: 1,
-                      side: const BorderSide(
-                        color: Colors.black,
-                      ),
-                      minimumSize: const Size.fromHeight(50),
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.only(top: 12, bottom: 12)),
-                  onPressed: () {
-                    FocusManager.instance.primaryFocus?.unfocus();
-
-                    if (_formKey.currentState!.validate()) {
-                      login();
-                    }
-                  },
-                  child: const Text('Login')),
-              const SizedBox(
-                height: 24,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -115,7 +119,9 @@ class _LoginScreen extends State<LoginScreen> {
                       "Don't have an account?",
                       style: TextStyle(color: Colors.black),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      push(context, const RegisterScreen());
+                    },
                   ),
                   GestureDetector(
                     child: const Text("Forgot Password?",

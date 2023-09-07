@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:kapu_balija_doctors/services/helper.dart';
-import 'package:kapu_balija_doctors/utils/constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -10,6 +12,24 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreen extends State<RegisterScreen> {
+  final GlobalKey<FormState> _registerKey = GlobalKey<FormState>();
+
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController middleNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController homeAddressController = TextEditingController();
+  final TextEditingController clinicAddressController = TextEditingController();
+  final TextEditingController contactNoController = TextEditingController();
+  final TextEditingController educationQualificationController =
+      TextEditingController();
+  final TextEditingController specialityController = TextEditingController();
+  final TextEditingController treatedDiseasesController =
+      TextEditingController();
+
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,218 +46,342 @@ class _RegisterScreen extends State<RegisterScreen> {
         ),
         backgroundColor: Colors.white,
         body: ListView(
+          key: _registerKey,
           children: [
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.text,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'First Name',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: firstNameController,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                    hintText: 'First Name',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    )),
+                validator: (value) => !value!.contains('@')
+                    ? 'Please enter valid First Name'
+                    : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.text,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Middle Name',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: middleNameController,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                    hintText: 'Middle Name',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    )),
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.text,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Last Name',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: lastNameController,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                    hintText: 'Last Name',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    )),
+                validator: (value) => !value!.contains('@')
+                    ? 'Please enter valid Last Name'
+                    : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Home Address',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: homeAddressController,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                    hintText: 'Home Address',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.location_city,
+                      color: Colors.black,
+                    )),
+                validator: (value) =>
+                    !value!.contains('@') ? 'Please enter Home Address' : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Home Address or Clinic Address',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: clinicAddressController,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                    hintText: 'Clinic Address',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.location_city,
+                      color: Colors.black,
+                    )),
+                validator: (value) => !value!.contains('@')
+                    ? 'Please enter Clinic Address'
+                    : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.emailAddress,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Email',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: emailController,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                    hintText: 'Email Address',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.email,
+                      color: Colors.black,
+                    )),
+                validator: (value) =>
+                    !value!.contains('@') ? 'Please enter valid email' : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.phone,
-                  maxLength: 10,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Contact No',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: passwordController,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.visiblePassword,
+                decoration: const InputDecoration(
+                    hintText: 'Password',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      color: Colors.black,
+                    )),
+                validator: (value) =>
+                    value!.length < 6 ? 'Must be at least 6 characters' : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.text,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Education Qualification',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: contactNoController,
+                //cursorColor: Colors.white,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                    hintText: 'Contact No',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.phone,
+                      color: Colors.black,
+                    )),
+                validator: (value) => !value!.contains('@')
+                    ? 'Please enter valid contact no'
+                    : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Speciality',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: educationQualificationController,
+                //cursorColor: Colors.white,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.multiline,
+                decoration: const InputDecoration(
+                    hintText: 'Education Qualification',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.cast_for_education,
+                      color: Colors.black,
+                    )),
+                validator: (value) => !value!.contains('@')
+                    ? 'Please enter Education Qualification'
+                    : null,
+              ),
             ),
             Padding(
               padding:
                   const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
               child: TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  textInputAction: TextInputAction.next,
-                  validator: validateEmail,
-                  onSaved: (String? val) {
-                    //email = val;
-                  },
-                  style: const TextStyle(fontSize: 18.0),
-                  keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(colorPrimary),
-                  decoration: getInputDecoration(
-                      hint: 'Mostly Treated Diseases',
-                      darkMode: isDarkMode(context),
-                      errorColor: Theme.of(context).errorColor)),
+                controller: specialityController,
+                //cursorColor: Colors.white,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                    hintText: 'Speciality',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.cast_for_education,
+                      color: Colors.black,
+                    )),
+                validator: (value) =>
+                    !value!.contains('@') ? 'Please enter Speciality' : null,
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
+              child: TextFormField(
+                controller: treatedDiseasesController,
+                //cursorColor: Colors.white,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                    hintText: 'Mostly Treated Diseases',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(
+                      Icons.health_and_safety,
+                      color: Colors.black,
+                    )),
+                validator: (value) =>
+                    !value!.contains('@') ? 'Please enter valid email' : null,
+              ),
             ),
             Padding(
                 padding:
                     const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.only(
-                        top: 12, left: 20, right: 20, bottom: 12),
-                    backgroundColor: const Color(colorPrimary),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      side: const BorderSide(
-                        color: Color(colorPrimary),
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    submitDetails();
-                  },
-                  child: const Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                )),
+                    style: ElevatedButton.styleFrom(
+                        //elevation: 1,
+                        side: const BorderSide(
+                          color: Colors.black,
+                        ),
+                        minimumSize: const Size.fromHeight(50),
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.only(top: 12, bottom: 12)),
+                    onPressed: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
+
+                      if (_registerKey.currentState!.validate()) {
+                        submitDetails();
+                      }
+                    },
+                    child: const Text('Submit'))),
+            const SizedBox(
+              height: 16,
+            ),
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ))
+                : const SizedBox()
           ],
         ));
   }
 
-  void submitDetails() {}
+  void submitDetails() async {
+    try {
+      Response response = await post(
+          Uri.parse('http://62.72.31.8:8888/api/users/register'),
+          body: {
+            'firstName': firstNameController.text,
+            'middleName': middleNameController.text,
+            'lastName': lastNameController.text,
+            'password': passwordController.text,
+            'email': emailController.text,
+            'phone': contactNoController.text,
+            'roleId': "1",
+            'education': educationQualificationController.text,
+            'speciality': specialityController.text,
+            'treatedDiseases': treatedDiseasesController.text,
+            'address': homeAddressController.text,
+            'clinicAddress': clinicAddressController.text
+          });
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body.toString());
+        //print(data['token']);
+        print(data);
+        print('Register successfully');
+      } else {
+        print('failed');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
