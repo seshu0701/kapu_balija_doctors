@@ -1,7 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:http/http.dart' as http;
-import 'package:kapu_balija_doctors/utils/constants.dart';
+import 'package:http/http.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +11,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -24,7 +23,7 @@ class _LoginScreen extends State<LoginScreen> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding:  const EdgeInsets.only(left:16, right:16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,7 +36,9 @@ class _LoginScreen extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 32,),
+              const SizedBox(
+                height: 32,
+              ),
               TextFormField(
                 controller: emailController,
                 //cursorColor: Colors.white,
@@ -55,16 +56,15 @@ class _LoginScreen extends State<LoginScreen> {
                       Icons.email,
                       color: Colors.black,
                     )),
-                validator: (value) => !value!.contains('@')
-                    ? 'Please enter valid email'
-                    : null,
+                validator: (value) =>
+                    !value!.contains('@') ? 'Please enter valid email' : null,
               ),
               const SizedBox(
                 height: 16,
               ),
               TextFormField(
                 controller: passwordController,
-               // cursorColor: Colors.white,
+                // cursorColor: Colors.white,
 
                 style: const TextStyle(color: Colors.black),
                 decoration: const InputDecoration(
@@ -80,30 +80,27 @@ class _LoginScreen extends State<LoginScreen> {
                       Icons.lock,
                       color: Colors.black,
                     )),
-                validator: (value) => value!.length < 6
-                    ? 'Must be at least 6 characters'
-                    : null,
+                validator: (value) =>
+                    value!.length < 6 ? 'Must be at least 6 characters' : null,
               ),
               const SizedBox(
                 height: 30,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    //elevation: 1,
+                      //elevation: 1,
                       side: const BorderSide(
                         color: Colors.black,
                       ),
                       minimumSize: const Size.fromHeight(50),
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      padding:
-                      const EdgeInsets.only(top: 12, bottom: 12)),
+                      padding: const EdgeInsets.only(top: 12, bottom: 12)),
                   onPressed: () {
                     FocusManager.instance.primaryFocus?.unfocus();
 
                     if (_formKey.currentState!.validate()) {
                       login();
-
                     }
                   },
                   child: const Text('Login')),
@@ -118,25 +115,23 @@ class _LoginScreen extends State<LoginScreen> {
                       "Don't have an account?",
                       style: TextStyle(color: Colors.black),
                     ),
-                    onTap: () {
-                    },
+                    onTap: () {},
                   ),
                   GestureDetector(
                     child: const Text("Forgot Password?",
                         style: TextStyle(color: Colors.black)),
-                    onTap: () {
-                    },
+                    onTap: () {},
                   )
                 ],
               ),
               const SizedBox(
                 height: 16,
               ),
-
-                 isLoading ? const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                  ))
+              isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ))
                   : const SizedBox()
             ],
           ),
@@ -145,20 +140,42 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 
-void login() async{
-if(await InternetConnectionChecker().hasConnection == true){
-  Map<String,dynamic> request = {'email': emailController.text, 'password': passwordController.text};
-  final uri = Uri.http("${baseUrl}api/users/login");
-  var response = await http.post(uri, body: request);
-  print('Response status: ${response.statusCode}');
-  print('Response body: ${response.body}');
+  /*void login() async {
+    if (await InternetConnectionChecker().hasConnection == true) {
+      Map<String, dynamic> request = {
+        'email': emailController.text,
+        'password': passwordController.text
+      };
+      //final uri = Uri.http("${baseUrl}api/users/login");
+      final uri = Uri.http("http://62.72.31.8:8888/api/users/login");
+      print('Request uri: $uri');
+      var response = await http.post(uri, body: request);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    } else {
+      debugPrint("No internet");
+    }
+  }*/
 
+  void login() async {
+    try {
+      Response response = await post(
+          Uri.parse('http://62.72.31.8:8888/api/users/login'),
+          body: {
+            'email': emailController.text,
+            'password': passwordController.text
+          });
 
-}else{
-  debugPrint("No internet");
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body.toString());
+        //print(data['token']);
+        print(data);
+        print('Login successfully');
+      } else {
+        print('failed');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
-}
-
-}
-
-
