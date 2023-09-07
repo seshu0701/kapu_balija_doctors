@@ -63,12 +63,12 @@ showProgress(BuildContext context, String message, bool isDismissible) async {
   progressDialog.style(
       message: message,
       borderRadius: 10.0,
-      backgroundColor: const Color(COLOR_PRIMARY),
+      backgroundColor: const Color(colorPrimary),
       progressWidget: Container(
         padding: const EdgeInsets.all(8.0),
         child: const CircularProgressIndicator(
           backgroundColor: Colors.white,
-          valueColor: AlwaysStoppedAnimation(Color(COLOR_PRIMARY)),
+          valueColor: AlwaysStoppedAnimation(Color(colorPrimary)),
         ),
       ),
       elevation: 10.0,
@@ -190,7 +190,7 @@ InputDecoration getInputDecoration(
     hintText: hint,
     focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(color: Color(COLOR_PRIMARY), width: 2.0)),
+        borderSide: const BorderSide(color: Color(colorPrimary), width: 2.0)),
     errorBorder: OutlineInputBorder(
       borderSide: BorderSide(color: errorColor),
       borderRadius: BorderRadius.circular(25.0),

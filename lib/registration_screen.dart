@@ -39,7 +39,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.text,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'First Name',
                       darkMode: isDarkMode(context),
@@ -57,7 +57,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.text,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Middle Name',
                       darkMode: isDarkMode(context),
@@ -75,7 +75,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.text,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Last Name',
                       darkMode: isDarkMode(context),
@@ -93,7 +93,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Home Address',
                       darkMode: isDarkMode(context),
@@ -111,7 +111,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Home Address or Clinic Address',
                       darkMode: isDarkMode(context),
@@ -129,7 +129,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.emailAddress,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Email',
                       darkMode: isDarkMode(context),
@@ -148,7 +148,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.phone,
                   maxLength: 10,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Contact No',
                       darkMode: isDarkMode(context),
@@ -166,7 +166,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.text,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Education Qualification',
                       darkMode: isDarkMode(context),
@@ -184,7 +184,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Speciality',
                       darkMode: isDarkMode(context),
@@ -202,7 +202,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   },
                   style: const TextStyle(fontSize: 18.0),
                   keyboardType: TextInputType.multiline,
-                  cursorColor: const Color(COLOR_PRIMARY),
+                  cursorColor: const Color(colorPrimary),
                   decoration: getInputDecoration(
                       hint: 'Mostly Treated Diseases',
                       darkMode: isDarkMode(context),
@@ -215,11 +215,11 @@ class _RegisterScreen extends State<RegisterScreen> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.only(
                         top: 12, left: 20, right: 20, bottom: 12),
-                    backgroundColor: const Color(COLOR_PRIMARY),
+                    backgroundColor: const Color(colorPrimary),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                       side: const BorderSide(
-                        color: Color(COLOR_PRIMARY),
+                        color: Color(colorPrimary),
                       ),
                     ),
                   ),
