@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:kapu_balija_doctors/registration_screen.dart';
-import 'package:kapu_balija_doctors/services/helper.dart';
+
+import 'registration_screen.dart';
+import 'services/helper.dart';
+import 'utils/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -165,12 +167,11 @@ class _LoginScreen extends State<LoginScreen> {
 
   void login() async {
     try {
-      Response response = await post(
-          Uri.parse('http://62.72.31.8:8888/api/users/login'),
-          body: {
-            'email': emailController.text,
-            'password': passwordController.text
-          });
+      final uri = Uri.parse("${baseUrl}api/users/login");
+      Response response = await post(uri, body: {
+        'email': emailController.text,
+        'password': passwordController.text
+      });
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());

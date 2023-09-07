@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:kapu_balija_doctors/services/helper.dart';
+
+import 'services/helper.dart';
+import 'utils/constants.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -355,6 +357,7 @@ class _RegisterScreen extends State<RegisterScreen> {
 
   void submitDetails() async {
     try {
+      final uri = Uri.parse("${baseUrl}api/users/register");
       Response response = await post(
           Uri.parse('http://62.72.31.8:8888/api/users/register'),
           body: {
