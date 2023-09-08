@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:kapu_balija_doctors/search_doctors_screen.dart';
 
 import 'registration_screen.dart';
 import 'services/helper.dart';
@@ -148,23 +147,6 @@ class _LoginScreen extends State<LoginScreen> {
     );
   }
 
-  /*void login() async {
-    if (await InternetConnectionChecker().hasConnection == true) {
-      Map<String, dynamic> request = {
-        'email': emailController.text,
-        'password': passwordController.text
-      };
-      //final uri = Uri.http("${baseUrl}api/users/login");
-      final uri = Uri.http("http://62.72.31.8:8888/api/users/login");
-      print('Request uri: $uri');
-      var response = await http.post(uri, body: request);
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-    } else {
-      debugPrint("No internet");
-    }
-  }*/
-
   void login() async {
     try {
       final uri = Uri.parse("${baseUrl}api/users/login");
@@ -174,15 +156,21 @@ class _LoginScreen extends State<LoginScreen> {
       });
 
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body.toString());
-        //print(data['token']);
-        print(data);
-        print('Login successfully');
+        //var data = jsonDecode(response.body.toString());
+        gotoSearchDoctorsScreen();
       } else {
-        print('failed');
+        showDialog(response.body);
       }
     } catch (e) {
-      print(e.toString());
+      showDialog(e.toString());
     }
+  }
+
+  void showDialog(String message) {
+    showAlertDialog(context, "Message", message);
+  }
+
+  void gotoSearchDoctorsScreen() {
+    push(context, const SearchDoctorsScreen());
   }
 }
