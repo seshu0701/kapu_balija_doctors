@@ -18,6 +18,13 @@ class _LoginScreen extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController(text: "");
   TextEditingController passwordController = TextEditingController(text: "");
   bool isLoading = false;
+  bool passwordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,19 +76,34 @@ class _LoginScreen extends State<LoginScreen> {
                       const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
                   child: TextFormField(
                     controller: passwordController,
+                    obscureText: passwordVisible,
                     // cursorColor: Colors.white,
                     style: const TextStyle(color: Colors.black),
                     keyboardType: TextInputType.visiblePassword,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                         hintText: 'Password',
-                        enabledBorder: UnderlineInputBorder(
+                        enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.black),
                         ),
-                        focusedBorder: UnderlineInputBorder(
+                        focusedBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.black),
                         ),
-                        hintStyle: TextStyle(color: Colors.black),
-                        prefixIcon: Icon(
+                        hintStyle: const TextStyle(color: Colors.black),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                              () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
+                        ),
+                        alignLabelWithHint: false,
+                        filled: true,
+                        prefixIcon: const Icon(
                           Icons.lock,
                           color: Colors.black,
                         )),
@@ -125,11 +147,11 @@ class _LoginScreen extends State<LoginScreen> {
                       push(context, const RegisterScreen());
                     },
                   ),
-                  GestureDetector(
+                  /*GestureDetector(
                     child: const Text("Forgot Password?",
                         style: TextStyle(color: Colors.black)),
                     onTap: () {},
-                  )
+                  )*/
                 ],
               ),
               const SizedBox(

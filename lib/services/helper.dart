@@ -118,7 +118,8 @@ showCustomAlertDialog<bool>(
   Widget okButton = TextButton(
     child: const Text("OK"),
     onPressed: () {
-      Navigator.pop(context);
+      //Navigator.of(context).pop(true);
+      Navigator.pop(context, true);
     },
   );
   AlertDialog alert = AlertDialog(

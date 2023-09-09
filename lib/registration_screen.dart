@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:kapu_balija_doctors/search_doctors_screen.dart';
 
 import 'services/helper.dart';
 import 'utils/constants.dart';
@@ -15,6 +16,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreen extends State<RegisterScreen> {
+  bool passwordVisible = false;
   final GlobalKey<FormState> _registerKey = GlobalKey<FormState>();
 
   final TextEditingController firstNameController = TextEditingController();
@@ -32,6 +34,12 @@ class _RegisterScreen extends State<RegisterScreen> {
       TextEditingController();
 
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +60,8 @@ class _RegisterScreen extends State<RegisterScreen> {
           key: _registerKey,
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(left:24.0,right: 24,top: 15),
-              child:  Column(
+              padding: const EdgeInsets.only(left: 24.0, right: 24, top: 15),
+              child: Column(
                 children: [
                   TextFormField(
                     controller: firstNameController,
@@ -73,7 +81,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter valid First Name' : null,
+                    value!.isEmpty ? 'Please enter valid First Name' : null,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
@@ -116,7 +124,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter valid Last Name' : null,
+                    value!.isEmpty ? 'Please enter valid Last Name' : null,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
@@ -137,7 +145,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter Home Address' : null,
+                    value!.isEmpty ? 'Please enter Home Address' : null,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
@@ -158,7 +166,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter Clinic Address' : null,
+                    value!.isEmpty ? 'Please enter Clinic Address' : null,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
@@ -184,6 +192,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
+                    obscureText: passwordVisible,
                     controller: passwordController,
                     style: const TextStyle(color: Colors.black),
                     keyboardType: TextInputType.visiblePassword,
@@ -196,8 +205,22 @@ class _RegisterScreen extends State<RegisterScreen> {
                           borderSide: BorderSide(color: Colors.black),
                         ),
                         hintStyle: TextStyle(color: Colors.black),
+                        /*suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                              () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
+                        ),
+                        alignLabelWithHint: false,
+                        filled: true,*/
                         prefixIcon: Icon(
-                          Icons.person,
+                          Icons.lock,
                           color: Colors.black,
                         )),
                     validator: (value) => value!.length < 6
@@ -210,6 +233,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                     //cursorColor: Colors.white,
                     style: const TextStyle(color: Colors.black),
                     keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                    ],
                     decoration: const InputDecoration(
                         hintText: 'Contact No',
                         enabledBorder: UnderlineInputBorder(
@@ -224,7 +250,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter valid contact no' : null,
+                    value!.isEmpty ? 'Please enter valid contact no' : null,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
@@ -269,7 +295,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                        value!.isEmpty ? 'Please enter Speciality' : null,
+                    value!.isEmpty ? 'Please enter Speciality' : null,
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
@@ -291,12 +317,14 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                    value!.isEmpty ? 'Please enter Treated disease' : null,
+                        value!.isEmpty ? 'Please enter Treated disease' : null,
                   ),
-                  const SizedBox(height: 30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        //elevation: 1,
+                          //elevation: 1,
                           side: const BorderSide(
                             color: Colors.black,
                           ),
@@ -317,53 +345,78 @@ class _RegisterScreen extends State<RegisterScreen> {
                   ),
                   isLoading
                       ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.black,
-                      ))
+                          child: CircularProgressIndicator(
+                          color: Colors.black,
+                        ))
                       : const SizedBox()
                 ],
               ),
             ),
           ),
-        )
+        ));
+  }
+
+  void submitDetails() async {
+    try {
+      final uri = Uri.parse("${baseUrl}api/users/register");
+      Response response = await post(uri, body: {
+        'firstName': firstNameController.text,
+        'middleName': middleNameController.text,
+        'lastName': lastNameController.text,
+        'password': passwordController.text,
+        'email': emailController.text,
+        'phone': contactNoController.text,
+        'roleId': "1",
+        'education': educationQualificationController.text,
+        'speciality': specialityController.text,
+        'treatedDiseases': treatedDiseasesController.text,
+        'address': homeAddressController.text,
+        'clinicAddress': clinicAddressController.text
+      });
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body.toString());
+        var message = data['message'];
+        showAlertDialog(message);
+      } else {
+        showAlertDialog(response.body);
+      }
+    } catch (e) {
+      showAlertDialog(e.toString());
+    }
+  }
+
+  /*void showDialog(String message) {
+    showAlertDialog(context, "Message", message);
+  }*/
+
+  showAlertDialog(String message) {
+    // set up the button
+    Widget okButton = TextButton(
+      child: const Text("Ok"),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.of(context).pop(true);
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("Message"),
+      content: Text(message),
+      actions: [
+        okButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
-
-  void submitDetails() async {
-    if(await InternetConnectionChecker().hasConnection == true){
-      try {
-        Response response = await post(
-            Uri.parse('${baseUrl}api/users/register'),
-            body: {
-              'firstName': firstNameController.text,
-              'middleName': middleNameController.text,
-              'lastName': lastNameController.text,
-              'password': passwordController.text,
-              'email': emailController.text,
-              'phone': contactNoController.text,
-              'roleId': "1",
-              'education': educationQualificationController.text,
-              'speciality': specialityController.text,
-              'treatedDiseases': treatedDiseasesController.text,
-              'address': homeAddressController.text,
-              'clinicAddress': clinicAddressController.text
-            });
-
-        if (response.statusCode == 200) {
-          var data = jsonDecode(response.body.toString());
-          //print(data['token']);
-          print(data);
-          print('Register successfully');
-        } else {
-          print('failed');
-        }
-      } catch (e) {
-        print(e.toString());
-      }
-    }else{
-      print("No Internet");
-    }
-
+  void gotoSearchDoctorsScreen() {
+    push(context, const SearchDoctorsScreen());
   }
 }
