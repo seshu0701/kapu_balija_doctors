@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:kapu_balija_doctors/models/search_data.dart';
 import 'package:kapu_balija_doctors/utils/constants.dart';
 
 import 'services/helper.dart';
@@ -14,47 +15,63 @@ class SearchDoctorsScreen extends StatefulWidget {
 }
 
 class _SearchDoctorsScreen extends State<SearchDoctorsScreen> {
-  final GlobalKey<FormState> _searchDoctorsKey = GlobalKey<FormState>();
-
   final TextEditingController searchController = TextEditingController();
+  Icon cusIcon =const  Icon(Icons.search);
+  Widget cusSearchBar=const Text("Search Doctors",style: TextStyle(color: Colors.white),);
+  List<SearchData> searchData = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black12,
-          iconTheme: IconThemeData(
-              color: isDarkMode(context) ? Colors.white : Colors.black),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: const Text("Search Doctors"),
+          title: cusSearchBar,
           centerTitle: true,
-        ),
-        backgroundColor: Colors.white,
-        body: ListView(
-          key: _searchDoctorsKey,
-          children: [
-            Padding(
-                padding:
-                const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
-                child: SearchBar(
-                    padding: const MaterialStatePropertyAll<EdgeInsets>(
-                        EdgeInsets.symmetric(horizontal: 16.0)),
-                    leading: const Icon(Icons.search),
-                    trailing: <Widget>[
-                      Tooltip(
-                        message: 'Change brightness mode',
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.wb_sunny_outlined),
-                          selectedIcon: const Icon(Icons.close),
-                        ),
-                      )
-                    ])),
+          actions: [
+            IconButton(onPressed: (){
+              setState(() {
+                if(cusIcon.icon == Icons.search){
+                  cusIcon = const Icon(Icons.cancel);
+                  cusSearchBar = TextField(
+                    controller: searchController,
+                    style: const TextStyle(color: Colors.white),
+                    textInputAction: TextInputAction.search,
+
+                    decoration: const InputDecoration(
+                      hintText: 'Search',
+                      hintStyle: TextStyle(color: Colors.white),
+
+                      border: InputBorder.none,
+                    ),
+                    onSubmitted: (value){
+                      debugPrint(value);
+                      submitDetails();
+
+                    },
+                  );
+                }
+                else{
+                  cusIcon = const Icon(Icons.search);
+                  cusSearchBar =  const Text("Search Doctors",style:  TextStyle(fontSize: 16, color: Colors.white),);
+
+                }
+              });
+            }, icon: cusIcon,),
           ],
-        ));
+        ),
+      body: Padding(
+        padding: const EdgeInsets.only(left:10.0,right: 10,top: 20),
+        child: ListView.builder(
+          itemCount: searchData.length,
+            itemBuilder: (context,index){
+          return  Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(searchData[index].firstName.toString()),
+            ],
+          );
+        }),
+      ),
+        );
   }
 
   void submitDetails() async {
@@ -65,7 +82,13 @@ class _SearchDoctorsScreen extends State<SearchDoctorsScreen> {
       });
 
       if (response.statusCode == 200) {
-        var data = jsonDecode(response.body.toString());
+        searchController.clear();
+        setState(() {
+          List jsonResponse = json.decode(response.body);
+           searchData = jsonResponse.map((data) => SearchData.fromJson(data)).toList();
+
+
+        });
       } else {
         showDialog(response.body);
       }

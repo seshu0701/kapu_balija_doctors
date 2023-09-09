@@ -148,6 +148,9 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   void login() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       final uri = Uri.parse("${baseUrl}api/users/login");
       Response response = await post(uri, body: {
@@ -156,13 +159,22 @@ class _LoginScreen extends State<LoginScreen> {
       });
 
       if (response.statusCode == 200) {
+        setState(() {
+          isLoading = false;
+        });
         //var data = jsonDecode(response.body.toString());
         gotoSearchDoctorsScreen();
       } else {
         showDialog(response.body);
+        setState(() {
+          isLoading = false;
+        });
       }
     } catch (e) {
       showDialog(e.toString());
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -171,6 +183,7 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   void gotoSearchDoctorsScreen() {
-    push(context, const SearchDoctorsScreen());
+    pushReplacement(context, const SearchDoctorsScreen());
   }
+
 }
