@@ -72,11 +72,10 @@ class _RegisterScreen extends State<RegisterScreen> {
                           Icons.person,
                           color: Colors.black,
                         )),
-                    validator: (value) => value!.isEmpty
-                        ? 'Please enter valid First Name'
-                        : null,
+                    validator: (value) =>
+                        value!.isEmpty ? 'Please enter valid First Name' : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: middleNameController,
                     style: const TextStyle(color: Colors.black),
@@ -98,7 +97,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                         ? 'Please enter valid Middle Name'
                         : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: lastNameController,
                     style: const TextStyle(color: Colors.black),
@@ -116,11 +115,10 @@ class _RegisterScreen extends State<RegisterScreen> {
                           Icons.person,
                           color: Colors.black,
                         )),
-                    validator: (value) => value!.isEmpty
-                        ? 'Please enter valid Last Name'
-                        : null,
+                    validator: (value) =>
+                        value!.isEmpty ? 'Please enter valid Last Name' : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: homeAddressController,
                     style: const TextStyle(color: Colors.black),
@@ -139,9 +137,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                    value!.isEmpty? 'Please enter Home Address' : null,
+                        value!.isEmpty ? 'Please enter Home Address' : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: clinicAddressController,
                     style: const TextStyle(color: Colors.black),
@@ -159,11 +157,10 @@ class _RegisterScreen extends State<RegisterScreen> {
                           Icons.location_city,
                           color: Colors.black,
                         )),
-                    validator: (value) => value!.isEmpty
-                        ? 'Please enter Clinic Address'
-                        : null,
+                    validator: (value) =>
+                        value!.isEmpty ? 'Please enter Clinic Address' : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: emailController,
                     style: const TextStyle(color: Colors.black),
@@ -181,10 +178,11 @@ class _RegisterScreen extends State<RegisterScreen> {
                           Icons.email,
                           color: Colors.black,
                         )),
-                    validator: (value) =>
-                    !value!.contains('@') ? 'Please enter valid email' : null,
+                    validator: (value) => !value!.contains('@')
+                        ? 'Please enter valid email'
+                        : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: passwordController,
                     style: const TextStyle(color: Colors.black),
@@ -202,10 +200,11 @@ class _RegisterScreen extends State<RegisterScreen> {
                           Icons.person,
                           color: Colors.black,
                         )),
-                    validator: (value) =>
-                    value!.length < 6 ? 'Must be at least 6 characters' : null,
+                    validator: (value) => value!.length < 6
+                        ? 'Must be at least 6 characters'
+                        : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: contactNoController,
                     //cursorColor: Colors.white,
@@ -224,11 +223,10 @@ class _RegisterScreen extends State<RegisterScreen> {
                           Icons.phone,
                           color: Colors.black,
                         )),
-                    validator: (value) => value!.isEmpty
-                        ? 'Please enter valid contact no'
-                        : null,
+                    validator: (value) =>
+                        value!.isEmpty ? 'Please enter valid contact no' : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: educationQualificationController,
                     //cursorColor: Colors.white,
@@ -251,7 +249,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                         ? 'Please enter Education Qualification'
                         : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: specialityController,
                     //cursorColor: Colors.white,
@@ -271,9 +269,9 @@ class _RegisterScreen extends State<RegisterScreen> {
                           color: Colors.black,
                         )),
                     validator: (value) =>
-                    value!.isEmpty ? 'Please enter Speciality' : null,
+                        value!.isEmpty ? 'Please enter Speciality' : null,
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(height: 15),
                   TextFormField(
                     controller: treatedDiseasesController,
                     //cursorColor: Colors.white,

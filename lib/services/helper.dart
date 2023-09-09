@@ -87,7 +87,33 @@ hideProgress() async {
 }
 
 //helper method to show alert dialog
-showAlertDialog(BuildContext context, String title, String content) {
+showAlertDialog(BuildContext context, String title, String content) async {
+  // set up the AlertDialog
+  Widget okButton = TextButton(
+    child: const Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop(true);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: Text(content),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showCustomAlertDialog<bool>(
+    BuildContext context, String title, String content) {
   // set up the AlertDialog
   Widget okButton = TextButton(
     child: const Text("OK"),

@@ -15,8 +15,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreen extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  TextEditingController emailController = TextEditingController(text: "");
+  TextEditingController passwordController = TextEditingController(text: "");
   bool isLoading = false;
 
   @override
@@ -46,6 +46,7 @@ class _LoginScreen extends State<LoginScreen> {
                     //cursorColor: Colors.white,
                     style: const TextStyle(color: Colors.black),
                     keyboardType: TextInputType.emailAddress,
+
                     decoration: const InputDecoration(
                         hintText: 'Email Address',
                         enabledBorder: UnderlineInputBorder(
@@ -185,5 +186,4 @@ class _LoginScreen extends State<LoginScreen> {
   void gotoSearchDoctorsScreen() {
     pushReplacement(context, const SearchDoctorsScreen());
   }
-
 }
