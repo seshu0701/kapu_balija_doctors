@@ -29,6 +29,7 @@ class _LoginScreen extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 229, 204),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -47,7 +48,7 @@ class _LoginScreen extends State<LoginScreen> {
               ),
               Padding(
                   padding:
-                      const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
+                  const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
                   child: TextFormField(
                     controller: emailController,
                     //cursorColor: Colors.white,
@@ -73,7 +74,7 @@ class _LoginScreen extends State<LoginScreen> {
                   )),
               Padding(
                   padding:
-                      const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
+                  const EdgeInsets.only(top: 15.0, right: 24.0, left: 24.0),
                   child: TextFormField(
                     controller: passwordController,
                     obscureText: passwordVisible,
@@ -95,7 +96,7 @@ class _LoginScreen extends State<LoginScreen> {
                               : Icons.visibility_off),
                           onPressed: () {
                             setState(
-                              () {
+                                  () {
                                 passwordVisible = !passwordVisible;
                               },
                             );
@@ -113,10 +114,10 @@ class _LoginScreen extends State<LoginScreen> {
                   )),
               Padding(
                   padding:
-                      const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
+                  const EdgeInsets.only(right: 40.0, left: 40.0, top: 40),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          //elevation: 1,
+                        //elevation: 1,
                           side: const BorderSide(
                             color: Colors.black,
                           ),
@@ -136,22 +137,23 @@ class _LoginScreen extends State<LoginScreen> {
                 height: 16,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  GestureDetector(
+                  /*GestureDetector(
                     child: const Text(
-                      "Don't have an account?",
+                      "Forgot Password?",
                       style: TextStyle(color: Colors.black),
                     ),
+                    onTap: () {},
+                  ),*/
+                  GestureDetector(
+                    child: const Text("Don't have an account?",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(color: Colors.black)),
                     onTap: () {
                       push(context, const RegisterScreen());
                     },
-                  ),
-                  /*GestureDetector(
-                    child: const Text("Forgot Password?",
-                        style: TextStyle(color: Colors.black)),
-                    onTap: () {},
-                  )*/
+                  )
                 ],
               ),
               const SizedBox(
@@ -159,9 +161,9 @@ class _LoginScreen extends State<LoginScreen> {
               ),
               isLoading
                   ? const Center(
-                      child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ))
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ))
                   : const SizedBox()
             ],
           ),

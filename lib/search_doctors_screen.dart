@@ -34,6 +34,7 @@ class _SearchDoctorsScreen extends State<SearchDoctorsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 229, 204),
       body: Column(mainAxisSize: MainAxisSize.max, children: [
         const SizedBox(height: 15),
         Container(
@@ -48,6 +49,8 @@ class _SearchDoctorsScreen extends State<SearchDoctorsScreen> {
                 },
                 decoration: InputDecoration(
                   hintText: "Search Doctors",
+                  filled: true,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4.0)),
                   focusedBorder: const OutlineInputBorder(
@@ -196,78 +199,104 @@ class _SearchDoctorsScreen extends State<SearchDoctorsScreen> {
                 padding: const EdgeInsets.only(left: 5, right: 5),
                 child: Column(
                   children: [
-                    Row(children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                            constraints: const BoxConstraints(minHeight: 60),
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(3),
-                            child: Text(
-                              doctorName,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 13.0),
-                            )),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4)),
+                          shape: BoxShape.rectangle,
+                          border: Border.all(
+                            color: Colors.green,
+                            width: 1,
+                          )),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                                constraints:
+                                    const BoxConstraints(minHeight: 60),
+                                alignment: Alignment.center,
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
+                                child: Text(
+                                  doctorName,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 13.0),
+                                )),
+                          ),
+                          const Divider(),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                                constraints:
+                                    const BoxConstraints(minHeight: 60),
+                                alignment: Alignment.center,
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
+                                child: Text(
+                                  doctor.speciality,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 13.0),
+                                )),
+                          ),
+                          const Divider(),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                                constraints:
+                                    const BoxConstraints(minHeight: 60),
+                                alignment: Alignment.center,
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
+                                child: Text(
+                                  doctor.phone.toString(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 13.0),
+                                )),
+                          ),
+                          const Divider(),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                                constraints:
+                                    const BoxConstraints(minHeight: 60),
+                                alignment: Alignment.center,
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
+                                child: Text(
+                                  doctor.address,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 13.0),
+                                )),
+                          ),
+                          const Divider(),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                                constraints:
+                                    const BoxConstraints(minHeight: 60),
+                                alignment: Alignment.center,
+                                padding:
+                                    const EdgeInsets.only(left: 5, right: 5),
+                                child: Text(
+                                  doctor.education,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                      fontSize: 12.0),
+                                )),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                            constraints: const BoxConstraints(minHeight: 60),
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(3),
-                            child: Text(
-                              doctor.speciality,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 13.0),
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                            constraints: const BoxConstraints(minHeight: 60),
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(3),
-                            child: Text(
-                              doctor.phone.toString(),
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 13.0),
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                            constraints: const BoxConstraints(minHeight: 60),
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.all(3),
-                            child: Text(
-                              doctor.address,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 13.0),
-                            )),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                            constraints: const BoxConstraints(minHeight: 60),
-                            padding: const EdgeInsets.all(3),
-                            alignment: Alignment.center,
-                            child: Text(
-                              doctor.education,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
-                                  fontSize: 12.0),
-                            )),
-                      ),
-                    ]),
+                    ),
                     const Divider(
                       height: 10,
                       color: Colors.green,

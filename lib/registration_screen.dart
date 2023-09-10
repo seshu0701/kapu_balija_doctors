@@ -45,7 +45,7 @@ class _RegisterScreen extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black12,
+          backgroundColor: const Color.fromARGB(255, 255, 229, 204),
           iconTheme: IconThemeData(
               color: isDarkMode(context) ? Colors.white : Colors.black),
           leading: IconButton(
@@ -385,10 +385,6 @@ class _RegisterScreen extends State<RegisterScreen> {
       showAlertDialog(e.toString());
     }
   }
-
-  /*void showDialog(String message) {
-    showAlertDialog(context, "Message", message);
-  }*/
 
   showAlertDialog(String message) {
     // set up the button
