@@ -26,4 +26,7 @@
     <orderEntry type="library" name="Flutter for Android" level="project" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="de549a72-ac28-4666-8a0e-39297ff8b216" />
+  </component>
 </module>

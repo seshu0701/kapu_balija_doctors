@@ -8,8 +8,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  http: ^1.1.0
+  http: ^1.2.1
   internet_connection_checker: ^1.0.0+1
+  dio: ^5.4.0
+  intl: ^0.17.0
   progress_dialog:
     git:
       url: https://github.com/mostafaAbdelazim/progress_dialog.git
@@ -17,9 +19,20 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
 flutter:
   uses-material-design: true
 
   assets:
     - assets/images/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 600
+      

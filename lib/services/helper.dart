@@ -87,12 +87,16 @@ hideProgress() async {
 }
 
 //helper method to show alert dialog
-showAlertDialog(BuildContext context, String title, String content) async {
+showCustomAlertDialog(
+    BuildContext context, String title, String content, callBack) async {
   // set up the AlertDialog
   Widget okButton = TextButton(
     child: const Text("OK"),
     onPressed: () {
-      Navigator.of(context).pop(true);
+      //Navigator.of(context).pop(true);
+      (_) {
+        callBack();
+      };
     },
   );
   AlertDialog alert = AlertDialog(
@@ -112,8 +116,7 @@ showAlertDialog(BuildContext context, String title, String content) async {
   );
 }
 
-showCustomAlertDialog<bool>(
-    BuildContext context, String title, String content) {
+showAlertDialog(BuildContext context, String title, String content) {
   // set up the AlertDialog
   Widget okButton = TextButton(
     child: const Text("OK"),
@@ -241,4 +244,8 @@ showSnackBar(BuildContext context, String message) {
         content: Text(message),
       ),
     );
+}
+
+printLog(String from, Object msg) {
+  print("org.kapubalija.doctors $from : ${msg}");
 }
