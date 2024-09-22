@@ -546,7 +546,7 @@ class _RegisterScreen extends State<RegisterScreen> {
 
     try {
       var apiResponseModel = await ApiService.registerUser(userProfile);
-      if (apiResponseModel.success) {
+      if (apiResponseModel.status) {
         showCustomAlertDialog(
             context, "Message", apiResponseModel.message, {gotoLoginScreen()});
       } else {

@@ -3,6 +3,7 @@ import 'dart:ui';
 const colorPrimary = 0xFF4549BC;
 const colorRed = 0xffD71921;
 const colorBorderBg = 0xffF8F7FB;
+const colorD70404 = 0xffD70404;
 
 const baseUrl =
     "http://ec2-18-61-244-163.ap-south-2.compute.amazonaws.com/api/";

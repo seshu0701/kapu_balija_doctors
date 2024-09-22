@@ -22,3 +22,4 @@ const surgeryIcon = 'assets/images/surgery.png';
 const obgIcon = 'assets/images/obg.png';
 const pulmonologyIcon = 'assets/images/pulmonology.png';
 const calendarIcon = 'assets/images/calendar_icon.png';
+const notificationsIcon = 'assets/images/ic_notification.png';

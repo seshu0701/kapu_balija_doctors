@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:kapu_balija_doctors/models/ApiResponse.dart';
+import 'package:kapu_balija_doctors/models/api_response.dart';
+import 'package:kapu_balija_doctors/models/cities_model.dart';
+import 'package:kapu_balija_doctors/models/states_model.dart';
 import 'package:kapu_balija_doctors/services/helper.dart';
 
 import '../models/user_profile.dart';
@@ -38,9 +40,9 @@ class ApiService {
           "status ${response.statusCode.toString()} body ${response.body}");
       var responseBody = json.decode(response.body);
       return ApiResponseModel(
-          message: responseBody['message'], success: responseBody['success']);
+          message: responseBody['message'], status: responseBody['status']);
     } catch (e) {
-      return ApiResponseModel(message: e.toString(), success: false);
+      return ApiResponseModel(message: e.toString(), status: false);
     }
   }
 
@@ -60,9 +62,9 @@ class ApiService {
           "status ${response.statusCode.toString()} body ${response.body}");
       var responseBody = json.decode(response.body);
       return ApiResponseModel(
-          message: responseBody['message'], success: responseBody['success']);
+          message: responseBody['message'], status: responseBody['status']);
     } catch (e) {
-      return ApiResponseModel(message: e.toString(), success: false);
+      return ApiResponseModel(message: e.toString(), status: false);
     }
   }
 
@@ -92,6 +94,38 @@ class ApiService {
     } catch (e) {
       print('Error making request: $e');
       return false;
+    }
+  }
+
+  static Future<List<StatesModel>> fetchStates() async {
+    return _fetchList<StatesModel>(
+      'locations/states',
+      (item) =>
+          StatesModel(id: item['_id'] ?? "", stateName: item['state'] ?? ""),
+    );
+  }
+
+  static Future<List<CitiesModel>> fetchCities(String stateName) async {
+    return _fetchList<CitiesModel>('locations/cities?state=stateName',
+        (item) => CitiesModel(id: item['_id'], city: item['city']));
+  }
+
+  static Future<List<T>> _fetchList<T>(
+    String endpoint,
+    T Function(Map<String, dynamic>) fromJson,
+  ) async {
+    final String url = '$baseUrl$endpoint';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = json.decode(response.body);
+        return (data['data'] as List).map((item) => fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
     }
   }
 }

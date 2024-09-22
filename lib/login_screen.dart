@@ -233,7 +233,7 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       var apiResponseModel = await ApiService.loginUser(
           emailController.text, passwordController.text);
-      if (apiResponseModel.success) {
+      if (apiResponseModel.status) {
         gotoSearchDoctorsHomeScreen();
       } else {
         showDialog(apiResponseModel.message);

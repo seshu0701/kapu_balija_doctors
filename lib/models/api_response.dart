@@ -1,12 +1,12 @@
 class ApiResponseModel {
   String message = "";
-  bool success = false;
+  bool status = false;
 
-  ApiResponseModel({required this.message, required this.success});
+  ApiResponseModel({required this.message, required this.status});
 
   factory ApiResponseModel.fromJson(Map<String, dynamic> parsedJson) {
     return ApiResponseModel(
         message: parsedJson['message'].toString(),
-        success: parsedJson['success']);
+        status: parsedJson['status']);
   }
 }
